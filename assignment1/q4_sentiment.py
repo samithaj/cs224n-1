@@ -65,7 +65,7 @@ def getRegularizationValues():
     """
     values = None   # Assign a list of floats in the block below
     ### YOUR CODE HERE
-    values = [0] + [0.000001 * 10**i for i in range(7)]
+    values = [0] + [0.000001 * 10**i for i in range(10)]
     ### END YOUR CODE
     return sorted(values)
 
@@ -91,7 +91,7 @@ def chooseBestModel(results):
     ### YOUR CODE HERE
     bestResult = results[0]
     for result in results:
-        if result[test] > bestResult:
+        if result['dev'] > bestResult['dev']:
             bestResult = result
     ### END YOUR CODE
 

@@ -6,12 +6,14 @@
 \usepackage[scaled=0.85]{beramono} % tt
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
+\usepackage{varwidth}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{bm}
-
+\usepackage{graphicx}
+\usepackage{float}
 \providecommand{\abs}[1]{\lvert#1\rvert}
 \providecommand{\norm}[1]{\lVert#1\rVert}
 
@@ -168,7 +170,10 @@
   \end{align*}
 \item \verb|q3_word2vec.py|
 \item \verb|q3_sgd.py|
-\item \verb|q3_word2vec.py|
+\item \
+  \begin{center}
+    \includegraphics[scale=0.8]{../assignment1/q3_word_vectors.png}
+  \end{center}
 \item \verb|q3_word2vec.py|
 \end{enumerate}
 
@@ -177,8 +182,66 @@
 
 \begin{enumerate}[(a)]
 \item \verb|q4_sentiment.py|
-\item To prevent out model from overfitting and make the model parameters more
-  smooth and computing friendly.
-\item 
+\item To prevent out model from overfitting.
+\item \verb|q4_sentiment.py|
+\item \
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+      \hline
+      Best Accuracies& word vectors from problem 3& pretrained \\ \hline \hline
+      train & 31.121& 39.934  \\ \hline
+      dev & 32.698& 36.876\\ \hline
+      test & 30.271& 37.69  \\ \hline
+    \end{tabular}
+    \caption{best accuracies}
+    \label{tab:1}
+  \end{table}
+  The model using pretrained GloVe vectors outperforms for the following
+  reasons:
+  \begin{itemize}
+  \item The word vectors are trained on massive data (wikipedia), thus hold more
+    information
+  \item GloVe's vectors use different dimension from word2vec.
+  \item GloVe represents words better than word2vec.
+  \end{itemize}
+\item \ 
+  \begin{center}
+    \includegraphics[scale=.8]{../assignment1/q4_reg_v_acc.png}
+  \end{center}
+  Regularization helped tackle overfitting, but regularization with too big
+  weight harm the performance.
+\item \ 
+  \begin{center}
+    \includegraphics[scale=.8]{../assignment1/q4_dev_conf.png}
+  \end{center}
+  The mispredictions of the model mostly happened near neutral zone. For strong
+  sentiment sentence, the prediction is quite accurate.
+\item
+  \begin{itemize}
+  \item Some cold/negative words in the sentence cause the whole sentence to be
+    predicted as negative, while the sentence has a positive context.(Or
+    negative meaning get overrun with positive words)
+    \begin{center}
+      \begin{varwidth}{.7\textwidth}
+    {\small nothing 's at stake , just a twisty double-cross you can smell a mile away -- still , the derivative nine queens is lots of fun .}              
+      \end{varwidth}
+    \end{center}
+    This sentence is with positive label(3), yet was predicted as negative(1).
+\item Some negation words are not exhibiting their negating effect.
+    \begin{center}
+      \begin{varwidth}{.7\textwidth}
+    {\small scores no points for originality , wit , or intelligence .}             
+  \end{varwidth}
+    \end{center}
+True label(0), predicted label(3).
+    \item Names hurt performance.
+    \begin{center} 
+      \begin{varwidth}{.7\textwidth}
+    {\small it takes a strange kind of laziness to waste the talents of robert forster , anne meara , eugene levy , and reginald veljohnson all in the same movie .}              
+      \end{varwidth}
+    \end{center}
+    True label(0), predicted label(3).
+  \end{itemize}
 \end{enumerate}
 \end{document}
