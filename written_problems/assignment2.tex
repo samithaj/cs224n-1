@@ -1,0 +1,200 @@
+\documentclass[11pt]{article}
+
+% \usepackage[sc]{mathpazo} % math & rm
+% \linespread{1.05}        % Palatino needs more leading (space between lines)
+% \usepackage[scaled=0.90]{helvet} % ss
+% % \usepackage[scaled=0.85]{beramono} % tt
+% \usepackage[scale=0.85]{sourcecodepro}
+% \usepackage[T1]{fontenc}
+% \usepackage{textcomp}
+\usepackage{varwidth}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{float}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{fact}[thm]{Fact}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{eg}{Example}
+\newtheorem{ex}{Exercise}
+\newtheorem{defi}{Definition}
+\newtheorem{hw}{Problem}
+\newenvironment{sol}
+{\par\vspace{3mm}\noindent{\it Solution}.}
+{\qed}
+
+\newcommand{\ov}{\overline}
+\newcommand{\cb}{{\cal B}}
+\newcommand{\cc}{{\cal C}}
+\newcommand{\cd}{{\cal D}}
+\newcommand{\ce}{{\cal E}}
+\newcommand{\cf}{{\cal F}}
+\newcommand{\ch}{{\cal H}}
+\newcommand{\cl}{{\cal L}}
+\newcommand{\cm}{{\cal M}}
+\newcommand{\cp}{{\cal P}}
+\newcommand{\cz}{{\cal Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\la}{\leftarrow}
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\dist}{\mbox{\rm dist}}
+\newcommand{\bn}{{\mathbf N}}
+\newcommand{\bbR}{{\mathbb R}}
+\newcommand{\bbE}{{\mathbb E}}
+
+
+\newcommand{\pder}[2][]{\frac{\partial#1}{\partial#2}}
+\newcommand{\omitJ}{(\bm{\cdot})}
+\newcommand{\pderJ}[1]{\pder[\omitJ]{#1}}
+\newcommand{\Jt}{J^{(t)}}
+\newcommand{\pderJt}[1]{\pder[\Jt]{#1}}
+
+\newcommand{\bh}{\bm{h}}
+\newcommand{\bH}{\bm{H}}
+\newcommand{\bL}{\bm{L}}
+\newcommand{\be}{\bm{e}}
+\newcommand{\bb}{\bm{b}}
+\newcommand{\bU}{\bm{U}}
+\newcommand{\bI}{\bm{I}}
+\newcommand{\by}{\bm{y}}
+\newcommand{\bx}{\bm{x}}
+\newcommand{\bz}{\bm{z}}
+\newcommand{\byhat}{\hat{\by}}
+\newcommand{\btheta}{\bm{\theta}}
+\newcommand{\bdelta}{\bm{\delta}}
+
+\newcommand{\bht}[1][t]{\bh^{(#1)}}
+\newcommand{\byt}[1][t]{\by^{(#1)}}
+\newcommand{\byhatt}[1][t]{\byhat^{(#1)}}
+\newcommand{\bet}[1][t]{\be^{(#1)}}
+\newcommand{\bxt}[1][t]{\bx^{(#1)}}
+\newcommand{\bzt}[1][t]{\bz^{(#1)}}
+\newcommand{\bdeltat}[1][t-1]{\bdelta^{(#1)}}
+\setlength{\parindent}{0pt}
+% \setlength{\parskip}{2ex}
+\newenvironment{proofof}[1]{\bigskip\noindent{\itshape #1. }}{\hfill$\Box$\medskip}
+
+\usepackage{enumerate,fullpage,proof,color}
+
+\title{CS224N: Assignment \#1}
+\author{Kangwei Ling}
+
+\begin{document}
+\maketitle
+
+\section{Tensorflow Softmax}
+\label{sec:1}
+\begin{enumerate}[(a)]
+\item \verb|q1_softmax.py|
+\item \verb|q1_softmax.py|
+\item
+  \begin{itemize}
+  \item placeholder variables are nodes in the computation graph that need
+    the data from outside to give its value. We use placeholder variables for
+    input data and labels.
+  \item feed dictionaries is used to map placeholder variables to data provided
+    when we are about to do the computation.
+  \end{itemize}
+\item \verb|q1_classifier.py|
+\item \verb|q1_classifier.py|
+\end{enumerate}
+
+\section{Neural Transition-Based Dependency Parsing}
+\label{sec:2}
+
+\begin{enumerate}[(a)]
+\item \ 
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{l|l|l|l}
+      stack&buffer&new dependency&transition \\ \hline
+      ... & ... & ... & ... \\
+      \ [ROOT, parsed] & [this, sentence, correctly] & parsed $\rightarrow$ I & \verb|LEFT-ARC| \\
+      \ [ROOT, parsed, this] & [sentence, correctly] &   & \verb|SHIFT| \\
+      \ [ROOT, parsed, this, sentence] & [correctly] &  &  \verb|SHIFT| \\
+      \ [ROOT, parsed, sentence] & [correctly] & sentence $\rightarrow$ this & \verb|LEFT-ARC| \\
+      \ [ROOT, parsed] & [correctly] & parsed $\rightarrow$ sentence & \verb|RIGHT-ARC| \\
+      \ [ROOT, parsed, correctly] & [] &  &  \verb|SHIFT| \\
+      \ [ROOT, parsed] & [] & parsed $\rightarrow$ correctly &  \verb|RIGHT-ARC| \\
+      \ [ROOT] & [] & ROOT $\rightarrow$ parsed & \verb|RIGHT-ARC|
+    \end{tabular}
+  \end{table}
+\item Every word will be pushed onto the stack exactly 1 time. And each word
+  will be associated with exactly 1 arc which itself is the pointee of the arc,
+  so there are $n$ \verb|-ARC| step. Therefore, a sentence containing $n$ words
+  will be parsed in $2n$ steps.
+\item \verb|q2_parser_transitions.py|
+\item \verb|q2_parser_transitions.py|
+\item \verb|q2_initialization.py|
+\item $\gamma = \frac{1}{p_{drop}}$. ($\bm{d}$ is independent of $\bm{h}$)
+  \[
+    \bbE[\bm{h}_{drop}]_i = \gamma\bbE[\bm{d}]_i \cdot \bbE[\bm{h}]_i = \gamma
+    p_{drop} \bbE[\bm{h}]_i
+  \]
+\item
+  \begin{enumerate}[(i)]
+  \item Using $\bm{m}$, the update of each time is a combination of current
+    gradient and previous updates. This method helps damp the oscillation
+    (reversing direction updates will be combined and damped), while their
+    momentum towards the optima will be compounded, greatly boosting the
+    converging speed.
+  \item The model parameters received smaller and infrequent gradients will get
+    larger updates, while those with larger and frequent gradients will get
+    lower learning rate. In this way, the learning rate is auto-adjusted and
+    tuned for the training.
+  \end{enumerate}
+\item UAS on dev set: 88.56 \\
+  UAS on train set: 89.16 \\
+  
+  
+\end{enumerate}
+
+\section{Recurrent Neural Networks: Language Modeling}
+\label{sec:3}
+
+\begin{enumerate}[(a)]
+\item Suppose $y_c^{t} = 1$ (since $y$ is one-hot), then $J^t(\theta) = - \log
+  \hat{y}_c^{(t)}$.
+  Thus,
+  \begin{align*}
+    PP^{(t)}(\bm{y}^{(t)}, \hat{\bm{y}}^{(t)}) &= \frac{1}{\hat{y}_j^{(t)}} \\
+    &= 2^J
+  \end{align*}
+    From the relation between perplexity and the cross-entropy loss, it's
+    obvious that minimizing the (arithmetic) mean cross-entropy loss will also
+    minimize the (geometric) mean perplexity.
+
+    For a totally random model, the perplexity would be $|V|$, the cross-entropy
+    would be $J = - \log \frac{1}{|V|} = |V|$.
+    
+  \item Let $\bzt = \bht[t-1]\bH + \bet\bI + \bb_1, \btheta = \bht\bU + \bb_2$
+    \begin{align*}
+      \pder[J^{(t)}]{\bm{b}_2} &= \hat{\bm{y}}^{(t)} - \bm{y}^{(t)} \\
+      \bdelta &= \pderJt{\btheta}\pder[\btheta]{\bht}\pder[\bht]{\bzt}= (\byhatt - \byt)\bU^T\circ \sigma'(\bzt) \\
+      \pderJt{\bI}\Bigr|_{(t)} &= \bdelta \pder[\bzt]{\bI} = (\bet)^T\bdelta \\
+      \pderJt{\bH}\Bigr|_{(t)} &= \bdelta \pder[\bzt]{\bH} = (\bht[t-1])^T\bdelta \\
+      \pderJt{\bL_{\bxt}} &= \pderJt{\bet} = \bdelta \pder[\bzt]{\bet} = \bdelta\bI^T \\
+      \pderJt{\bht[t-1]} &= \bdelta \bH^T
+    \end{align*}
+  \item Use the notation in (c).
+    \begin{align*}
+      \pderJt{\bH}\Bigr|_{(t-1)} &= (\bht[t-1])^T(\bdeltat\circ \sigma'(\bzt[t-1])) \\
+      \pderJt{\bI}\Bigr|_{(t-1)} &= (\bet[t-1])^T(\bdeltat\circ \sigma'(\bzt[t-1])) \\
+      \pderJt{\bL_{\bxt[t-1]}} &= (\bdeltat\circ \sigma'(\bzt[t-1]))\bI^T 
+    \end{align*}
+  \item forward: $\tau \cdot O(D_h^2 + D_h(d + |V|) + \text{softmax})$ \\
+        backward: $\tau \cdot O(D_h^2 + D_h(d + |V|))$
+  \item bonus: hierarchical softmax
+    
+\end{enumerate}
+
+\end{document}
