@@ -8,7 +8,8 @@
 % \usepackage[T1]{fontenc}
 % \usepackage{textcomp}
 \usepackage{varwidth}
-
+\usepackage[usenames, dvipsnames]{color}
+ 
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -187,13 +188,13 @@
     \end{align*}
   \item Use the notation in (c).
     \begin{align*}
-      \pderJt{\bH}\Bigr|_{(t-1)} &= (\bht[t-1])^T(\bdeltat\circ \sigma'(\bzt[t-1])) \\
+      \pderJt{\bH}\Bigr|_{(t-1)} &= (\bht[t-2])^T(\bdeltat\circ \sigma'(\bzt[t-1])) \\
       \pderJt{\bI}\Bigr|_{(t-1)} &= (\bet[t-1])^T(\bdeltat\circ \sigma'(\bzt[t-1])) \\
       \pderJt{\bL_{\bxt[t-1]}} &= (\bdeltat\circ \sigma'(\bzt[t-1]))\bI^T 
     \end{align*}
-  \item forward: $\tau \cdot O(D_h^2 + D_h(d + |V|) + \text{softmax})$ \\
+  \item forward: $O(D_h^2 + D_h(d + |V|))$ \\
         backward: $\tau \cdot O(D_h^2 + D_h(d + |V|))$
-  \item bonus: hierarchical softmax
+  \item bonus: hierarchical softmax?
     
 \end{enumerate}
 
